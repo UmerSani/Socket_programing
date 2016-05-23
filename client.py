@@ -12,7 +12,7 @@ while True:
 	if not data:
 		break
 	else:
-		s.sendall(reply)
+		s.sendall(data)
 		data=s.recv(1024)
 		if not data:
 			break
