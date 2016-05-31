@@ -28,51 +28,56 @@ print 'Socket now listening'
  
 #Function for handling connections. This will be used to create threads
 def clientthread(conn):
-    #Sending message to connected client
-    conn.send('Welcome to the server. Type something and hit enter\n') #send only takes string
-    # conn1.send('Welcome to the server. Type something and hit enter\n')
-    #infinite loop so that function do not terminate and thread do not end.
-    k=True
-    sname=conn.recv(1024)
-    while k:
-        #Receiving from client
+	#Sending message to connected client
+	 #send only takes string
+	# conn1.send('Welcome to the server. Type something and hit enter\n')
+	#infinite loop so that function do not terminate and thread do not end.
+	k=True
+	sname=conn.recv(1024)
+	temp1=''
+	for i in namearry:
+		temp1+= i + ' '
+	conn.sendall(temp1)
+	while True:
+	#Receiving from client
         
-	if sname  in name:
-		conn.sendall('Connected ')
-		temp=namearry[name]['index']
-		lst[temp].sendall('Connected ')
-		k=False
-	elif k:
-		conn.sendall('Enter name is Wrong')
-		k=False
-	else:
-		data=conn.recv(1024)
-		print('hehehe')
+		if sname  in name:
+			print sname		
+			temp=namearry[sname]['index']
+			print temp
+			conn.sendall('connected')
+			lst[temp].sendall('connected')
+			break
+		elif k:
+			conn.sendall('Enter name is Wrong')
+			k=False
+		else:
+			data=conn.recv(1024)
+			print 'hehehe'
 	while 1:
 		data=conn.recv(1024)
 		lst[temp].sendall(data)
-		print (data)
+		print data
 	     
     #came out of loop
-    conn.close()
+	conn.close()
 i=0
 #now keep talking with the client
 name=[]
 lst=[]
+
 namearry=dict()
 while 1:
 	
     	#wait to accept a connection - blocking call
-    	conn, addr = s.accept()
-    	
-	
-    	print 'Connected with ' + addr[0] + ':' + str(addr[1])
-    	lst.append(conn)
-    	name=str(conn.recv(1024))
-	namearry[name]={'index':i}
+	conn, addr = s.accept()
+	print 'Connected with ' + addr[0] + ':' + str(addr[1])
+	lst.append(conn)
+	n=str(conn.recv(1024))
+	name.append(n)
+	namearry[n]={'index':i}
 	i=i+1
     #start new thread takes 1st argument as a function name to be run, second is the tuple of arguments to the function.
     
 	start_new_thread(clientthread, (conn,))
- 
 s.close()
