@@ -13,12 +13,13 @@ s.connect((host, port))
 name=raw_input("Enter your Name\n")
 s.sendall(name)
 
+data=s.recv(4096)
+print 'list is:-', str(data)
 
 cname=raw_input("Enter Your Friend name \n")
 s.sendall(cname)
 
-data=s.recv(4096)
-print 'list  :-', str(data)
+
 
 while 1:
 	data=s.recv(1024)
@@ -32,7 +33,6 @@ while 1:
 def read(s):
 	while True:
 		data=s.recv(1024)
-		print 'abcd'
 		print data
 
 start_new_thread(read,(s,))
