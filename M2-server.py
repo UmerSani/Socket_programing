@@ -33,11 +33,14 @@ def clientthread(conn):
 	# conn1.send('Welcome to the server. Type something and hit enter\n')
 	#infinite loop so that function do not terminate and thread do not end.
 	k=True
-	sname=conn.recv(1024)
+
 	temp1=''
-	for i in namearry:
+	for i in name:
 		temp1+= i + ' '
 	conn.sendall(temp1)
+
+	sname = conn.recv(1024)
+
 	while True:
 	#Receiving from client
         
